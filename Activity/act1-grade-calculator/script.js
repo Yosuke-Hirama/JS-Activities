@@ -13,8 +13,8 @@ else if(user_input >= 70 && user_input <= 79){
 else if(user_input >= 60 && user_input <= 69){
     console.log("I'm sorry you did not have a passing score!");
 }
-else if(user_input <= 60){
-    console.log("I'm sorry but you did not pass76");
+else if(user_input < 60){
+    console.log("I'm sorry but you did not pass");
 }
 else{
     console.log("Please input valid numbers only!")
