@@ -2,6 +2,9 @@ let secretNumber = 7;
 let attempts = 0;
 let guessedNumber;
 console.log('Welcome Player to Guessing the Secret Number!');
+
+
+
 do{
     guessedNumber = Number(prompt("What is the secret number?"));
     if(guessedNumber < secretNumber){
