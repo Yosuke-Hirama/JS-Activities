@@ -1,26 +1,67 @@
-const checkout = document.querySelector('.checkout');
-const remove = document.querySelector('.remove');
-const add = document.querySelector('.add');
-const total = document.querySelector('.total');
+const cart = document.querySelector('.cart-items');
+const totalDisplay = document.querySelector('.total');
+const productButtons = document.querySelectorAll('.product');
 
-const product1 = document.querySelector('.product1');
-const product2 = document.querySelector('.product2');
-const product3 = document.querySelector('.product3');
+let totalAmount = 0;
+let cartItems = {};
 
+const products = {
+    product1: { name: "Product 1", price: 10 },
+    product2: { name: "Product 2", price: 15 },
+    product3: { name: "Product 3", price: 20 },
+};
 
-function addOne(){
-    remove.innerHTML += `<li class="one">Product 1 10.00 <button>Remove</button> Amount</li>`;
+function addToCart(productId) {
+    const {name, price} = products[productId];
+    console.log({name, price});
+
+    if (cartItems[name]){
+        cartItems[name].quantity += 1;
+        cartItems[name].price += price;
+    } else {
+        cartItems[name] = {
+            price: price,
+            quantity: 1,
+        };
+    }
+    
+    totalAmount += price;
+    updateCartDisplay();
+    updateTotal();
 }
 
-function addTwo(){
-    remove.innerHTML += `<li class="two">Product 1 10.00 <button>Remove</button> Amount</li>`;
+function removeFromCart(productName) {
+    totalAmount -= cartItems[productName].price;
+    delete cartItems[productName];
+    updateCartDisplay();
+    updateTotal();
 }
 
-function addThree(){
-    remove.innerHTML += `<li class="three">Product 1 10.00 <button>Remove</button> Amount</li>`;
+function updateCartDisplay() {
+    cart.innerHTML = '';
+    console.log(cartItems);
+
+    for (const productName in cartItems) {
+        const { price, quantity } = cartItems[productName];
+
+        const item = document.createElement('li');
+        item.innerHTML = `
+            <span>${productName} $${(price).toFixed(2)} <button class="remove">Remove</button> <span class="quantity">${quantity}</span></span>`;
+        cart.appendChild(item);
+
+        item.querySelector('.remove').addEventListener('click', () => {
+            removeFromCart(productName);
+        });
+    }
 }
 
-product1.addEventListener('click', addOne);
-product2.addEventListener('click', addTwo);
-product3.addEventListener('click', addThree);
+function updateTotal() {
+    totalDisplay.innerHTML = `Total: $${totalAmount.toFixed(2)}`;
+}
 
+productButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const productId = button.id;
+        addToCart(productId);
+    });
+});
