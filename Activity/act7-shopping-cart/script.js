@@ -13,7 +13,6 @@ const products = {
 
 function addToCart(productId) {
     const {name, price} = products[productId];
-    console.log({name, price});
 
     if (cartItems[name]){
         cartItems[name].quantity += 1;
